@@ -11,6 +11,6 @@
 // };
 
 typedef unsigned int 					uint_t;
-typedef	std::vector<Point>::iterator	itPoint_t;	
+typedef	std::vector<point::Point>::iterator	itPoint_t;	
 
 #endif

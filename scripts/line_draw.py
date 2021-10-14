@@ -15,11 +15,14 @@ def	line_3(x):
 def	line_4(x):
 	return (1/7)*x - 2
 
+def	line_5(x):
+	return -x + 2
+
 x = []
 y = []
 for i in range(-1, 10, 1):
 	x.append(i)
-	y.append(line_2(i))
+	y.append(line_5(i))
 
 
 print(x)
@@ -27,7 +30,7 @@ print(x)
 
 plt.plot(x, y)
 # plt.plot(1, 4, 'o')
-plt.plot(-1, 7, 'o', "RED")
-plt.plot(0, 0, 'o', "YELLOW")
+plt.plot(1, 1, 'o', "RED")
+plt.plot(0, 2, 'o', "YELLOW")
 plt.show()
 	
