@@ -11,12 +11,12 @@ def readFile(filename):
 	return fdata_x, fdata_y
 
 set_x, set_y = readFile('../build/points')
-# hull_x, hull_y = readFile('../build/convex_hull')
+hull_x, hull_y = readFile('../build/points_res')
 
 for i in range(0, len(set_x)):
 	plt.plot([set_x[i]], [set_y[i]], 'o', color='r')
 
-# plt.plot(hull_x, hull_y, 'b')
+plt.plot(hull_x, hull_y, 'b')
 plt.grid()
 plt.xlabel('X')
 plt.ylabel('Y')

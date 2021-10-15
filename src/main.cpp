@@ -23,11 +23,11 @@ int	saveInFile(const char* fileName, const std::set<point::Point>& points)
 	std::ofstream file(fileName);
 
 	file.clear();
-	for	(unsigned int i = 0; i < points.size(); i++)
-		file << points[i].x << " ";
+	for (std::set<point::Point>::iterator it = points.begin(); it != points.end(); it++)
+		file << it->x << " ";
 	file << std::endl;
-	for	(unsigned int i = 0; i < points.size(); i++)
-		file << points[i].y << " ";
+	for (std::set<point::Point>::iterator it = points.begin(); it != points.end(); it++)
+		file << it->y << " ";
 	file.close();
 }
 
@@ -54,7 +54,7 @@ int main()
 	resPoints = searchConvexSet.searchPoints(points);
 
 	saveInFile("points", points);
-	saveInFile("points", resPoints);
+	saveInFile("points_res", resPoints);
 
 	return (0);
 }
