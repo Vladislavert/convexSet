@@ -10,10 +10,17 @@ std::vector<point::Point>	SearchConvexSet::searchPoints(std::vector<point::Point
 	// double						currentDistance;
 
 	setOfPoints = points;
+	for (uint_t i = 0; i < points.size(); i++)
+		std::cout << "x = " << points[i].x
+					<< ", y = " << points[i].y
+					<< std::endl;
 	// pointsOutside  = points;
 
 	// // добавить точку в вектор convexSetPoints
 	minMaxPointsX = searchMinMaxPoints(setOfPoints, 'x');
+	std::cout << "x = " << minMaxPointsX[0].x
+					<< ", y = " << minMaxPointsX[0].y
+					<< std::endl;
 
 	// for (uint_t i = 0; i < minMaxPointsX.size(); i++)
 	// {
