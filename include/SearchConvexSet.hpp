@@ -16,15 +16,14 @@ class SearchConvexSet
 	public:
 		// SearchConvexSet();
 
-		std::vector<point::Point>	searchPoints(std::vector<point::Point>& points);
+		std::set<point::Point>		searchPoints(std::vector<point::Point>& points);
 		void						findHull(std::vector<point::Point>& points, point::Point& start, point::Point& end, int side);
 		void						printConvexSetPoints();
-
 		// ~SearchConvexSet();
 	private:
 		std::vector<point::Point>	pointsOutside; // точки снаружи
 		std::vector<point::Point>	setOfPoints; // множество точек, над которыми будут проводиться операции
-		std::vector<point::Point>	convexSetPoints; // множество точек, принадлежащих контуру выпуклой фигуре
+		std::set<point::Point>		convexSetPoints; // множество точек, принадлежащих контуру выпуклой фигуре
 
 		// std::vector<double>	calculateHyperplane(point::Point a, point::Point b, point::Point pointOutside);
 		int					findSide(point::Point a, point::Point b, point::Point pointOutside);
@@ -36,6 +35,8 @@ class SearchConvexSet
 		std::vector<point::Point>	searchMinMaxPoints(std::vector<point::Point>& points, char axesMinMax = 'x');
 		std::vector<uint_t>	searchIndexMinMaxPoints(const std::vector<point::Point>& points, char axesMinMax);
 		void				clearPointsOutside(const std::vector<point::Point>& interiorPoints);
+
+		void				printSetOfPoints();
 };
 
 #endif

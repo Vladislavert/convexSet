@@ -1,6 +1,6 @@
 #include "SearchConvexSet.hpp"
 
-std::vector<point::Point>	SearchConvexSet::searchPoints(std::vector<point::Point>& points)
+std::set<point::Point>	SearchConvexSet::searchPoints(std::vector<point::Point>& points)
 {
 	std::vector<point::Point>	minMaxPointsX;
 	// std::vector<uint_t>			indexMinMaxPointsX;
@@ -9,18 +9,22 @@ std::vector<point::Point>	SearchConvexSet::searchPoints(std::vector<point::Point
 	// double						pastDistance;
 	// double						currentDistance;
 
-	setOfPoints = points;
-	for (uint_t i = 0; i < points.size(); i++)
-		std::cout << "x = " << points[i].x
-					<< ", y = " << points[i].y
-					<< std::endl;
+	// setOfPoints = points;
+	// for (uint_t i = 0; i < points.size(); i++)
+	// 	std::cout << "x = " << points[i].x
+	// 				<< ", y = " << points[i].y
+	// 				<< std::endl;
 	// pointsOutside  = points;
 
 	// // добавить точку в вектор convexSetPoints
-	minMaxPointsX = searchMinMaxPoints(setOfPoints, 'x');
+	minMaxPointsX = searchMinMaxPoints(points, 'x');
 	std::cout << "x = " << minMaxPointsX[0].x
 					<< ", y = " << minMaxPointsX[0].y
 					<< std::endl;
+	std::cout << "x = " << minMaxPointsX[1].x
+					<< ", y = " << minMaxPointsX[1].y
+					<< std::endl;
+	std::cout << "----------" << std::endl;
 
 	// for (uint_t i = 0; i < minMaxPointsX.size(); i++)
 	// {
@@ -62,6 +66,8 @@ std::vector<point::Point>	SearchConvexSet::searchPoints(std::vector<point::Point
 	findHull(points, minMaxPointsX[0], minMaxPointsX[1], -1);
 	std::cout << "-------------" << std::endl;
 	printConvexSetPoints();
+	std::cout << "-------------" << std::endl;
+	printSetOfPoints();
 
 	
 	
@@ -69,12 +75,24 @@ std::vector<point::Point>	SearchConvexSet::searchPoints(std::vector<point::Point
 	return (convexSetPoints);
 }
 
+void	SearchConvexSet::printSetOfPoints()
+{
+	for (uint_t i = 0; i < setOfPoints.size(); i++)
+	{
+		std::cout << "x = " << setOfPoints[i].x
+				  << ", y = " << setOfPoints[i].y
+				  << std::endl;
+	}
+	
+}
+
+
 void	SearchConvexSet::printConvexSetPoints()
 {
-	for (uint_t i = 0; i < convexSetPoints.size(); i++)
+	for (std::set<point::Point>::iterator it = convexSetPoints.begin(); it != convexSetPoints.end(); it++)
 	{
-		std::cout << "x = " << convexSetPoints[i].x
-				  << ", y = " << convexSetPoints[i].y
+		std::cout << "x = " << it->x
+				  << ", y = " << it->y
 				  << std::endl;
 	}
 	
@@ -127,8 +145,10 @@ void		SearchConvexSet::findHull(std::vector<point::Point>& points, point::Point&
 	
 	if (index == -1)
 	{
-		convexSetPoints.push_back(start);
-		convexSetPoints.push_back(end);
+		convexSetPoints.insert(start);
+		convexSetPoints.insert(end);
+		setOfPoints.push_back(start);
+		setOfPoints.push_back(end);
 		return ;
 	}
 
