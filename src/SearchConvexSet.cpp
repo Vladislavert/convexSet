@@ -71,8 +71,10 @@ std::set<point::Point>	SearchConvexSet::searchPoints(std::vector<point::Point>& 
 
 	
 	
-
-	return (convexSetPoints);
+std::set<point::Point> k;
+	// return (convexSetPoints);
+	return (k);
+	
 }
 
 void	SearchConvexSet::printSetOfPoints()
@@ -89,11 +91,18 @@ void	SearchConvexSet::printSetOfPoints()
 
 void	SearchConvexSet::printConvexSetPoints()
 {
-	for (std::set<point::Point>::iterator it = convexSetPoints.begin(); it != convexSetPoints.end(); it++)
+	// for (std::set<point::Point>::iterator it = convexSetPoints.begin(); it != convexSetPoints.end(); it++)
+	// {
+	// 	std::cout << "x = " << it->x
+	// 			  << ", y = " << it->y
+	// 			  << std::endl;
+	// }
+
+	while (!convexSetPoints.empty())
 	{
-		std::cout << "x = " << it->x
-				  << ", y = " << it->y
-				  << std::endl;
+		std::cout << "(" <<( *convexSetPoints.begin()).x << ", "
+			<< (*convexSetPoints.begin()).y << ") ";
+		convexSetPoints.erase(convexSetPoints.begin());
 	}
 	
 }
@@ -145,10 +154,18 @@ void		SearchConvexSet::findHull(std::vector<point::Point>& points, point::Point&
 	
 	if (index == -1)
 	{
+		std::pair<int, int> temp;
+		temp.first = start.x;
+		temp.second = start.y;
 		convexSetPoints.insert(start);
+		temp.first = end.x;
+		temp.second = end.y;
 		convexSetPoints.insert(end);
-		setOfPoints.push_back(start);
-		setOfPoints.push_back(end);
+		// setOfPoints.push_back(start);
+		// setOfPoints.push_back(end);
+
+		std::cout << "p1 = " << start.x << ", " << start.y << std::endl;
+		std::cout << "p2 = " << end.x << ", " << end.y << std::endl;
 		return ;
 	}
 

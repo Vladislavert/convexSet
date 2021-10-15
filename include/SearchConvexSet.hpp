@@ -6,6 +6,7 @@
 #include <set>
 #include <exception>
 #include <iostream>
+#include<bits/stdc++.h>
 
 #include "DataTypes.hpp"
 #include "Point.hpp"
@@ -23,7 +24,7 @@ class SearchConvexSet
 	private:
 		std::vector<point::Point>	pointsOutside; // точки снаружи
 		std::vector<point::Point>	setOfPoints; // множество точек, над которыми будут проводиться операции
-		std::set<point::Point>		convexSetPoints; // множество точек, принадлежащих контуру выпуклой фигуре
+		std::set<point::Point/*std::pair<int, int>*/>		convexSetPoints; // множество точек, принадлежащих контуру выпуклой фигуре
 
 		// std::vector<double>	calculateHyperplane(point::Point a, point::Point b, point::Point pointOutside);
 		int					findSide(point::Point a, point::Point b, point::Point pointOutside);
