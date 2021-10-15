@@ -1,5 +1,33 @@
 #include "SearchConvexSet.hpp"
 
+// std::vector<point::Point>	SearchConvexSet::searchPoints(std::vector<point::Point>& points)
+// {
+// 	std::vector<point::Point>	minMaxPointsX;
+// 	// std::vector<uint_t>			indexMinMaxPointsX;
+// 	// std::vector<double>			coeffHyperplane;
+// 	// std::vector<double>			pointsOverHyperplane;
+// 	// double						pastDistance;
+// 	// double						currentDistance;
+
+// 	setOfPoints = points;
+
+// 	// pointsOutside  = points;
+
+// 	// // добавить точку в вектор convexSetPoints
+// 	minMaxPointsX = searchMinMaxPoints(setOfPoints, 'x');
+
+
+// 	findHull(points, minMaxPointsX[0], minMaxPointsX[1], 1);
+// 	printConvexSetPoints();
+// 	findHull(points, minMaxPointsX[0], minMaxPointsX[1], -1);
+// 	std::cout << "-------------" << std::endl;
+// 	printConvexSetPoints();
+
+
+// 	return (convexSetPoints);
+// }
+
+
 std::vector<point::Point>	SearchConvexSet::searchPoints(std::vector<point::Point>& points)
 {
 	std::vector<point::Point>	minMaxPointsX;
@@ -10,61 +38,22 @@ std::vector<point::Point>	SearchConvexSet::searchPoints(std::vector<point::Point
 	// double						currentDistance;
 
 	setOfPoints = points;
-	for (uint_t i = 0; i < points.size(); i++)
-		std::cout << "x = " << points[i].x
-					<< ", y = " << points[i].y
-					<< std::endl;
+
 	// pointsOutside  = points;
 
 	// // добавить точку в вектор convexSetPoints
 	minMaxPointsX = searchMinMaxPoints(setOfPoints, 'x');
-	std::cout << "x = " << minMaxPointsX[0].x
-					<< ", y = " << minMaxPointsX[0].y
-					<< std::endl;
 
-	// for (uint_t i = 0; i < minMaxPointsX.size(); i++)
-	// {
-	// 	convexSetPoints.push_back(minMaxPointsX[i]);
-	// }
-	// coeffHyperplane = calculateHyperplane(convexSetPoints[0], convexSetPoints.back());
-	// clearPointsOutside(minMaxPointsX);
+	// indexSidePoints.push_back(minMaxPointsX[0]);
+	// indexSidePoints.push_back(minMaxPointsX[1]);
 
-	// pastDistance = equationHyperplane(pointsOutside[0], coeffHyperplane);
-	// convexSetPoints.push_back(pointsOutside[0]);
-	// for (size_t i = 1; i < pointsOutside.size(); i++)
-	// {
-	// 	currentDistance = equationHyperplane(pointsOutside[i], coeffHyperplane);
-	// 	if (currentDistance > pastDistance)
-	// 	{
-	// 		convexSetPoints.erase(convexSetPoints.end() - 1);
-	// 		convexSetPoints.push_back(pointsOutside[i]);
-	// 	}
-	// }
-
-	// coeffHyperplane = calculateHyperplane(convexSetPoints.back(), convexSetPoints[1]);
-	// // clearPointsOutside(minMaxPointsX);
-
-	// pastDistance = equationHyperplane(pointsOutside[0], coeffHyperplane);;
-	// convexSetPoints.push_back(pointsOutside[0]);
-	// for (size_t i = 1; i < pointsOutside.size(); i++)
-	// {
-	// 	currentDistance = equationHyperplane(pointsOutside[i], coeffHyperplane);
-	// 	if (currentDistance > pastDistance)
-	// 	{
-	// 		convexSetPoints.erase(convexSetPoints.end() - 1);
-	// 		convexSetPoints.push_back(pointsOutside[i]);
-	// 	}
-	// }
-
-
+	
 	findHull(points, minMaxPointsX[0], minMaxPointsX[1], 1);
 	printConvexSetPoints();
 	findHull(points, minMaxPointsX[0], minMaxPointsX[1], -1);
 	std::cout << "-------------" << std::endl;
 	printConvexSetPoints();
 
-	
-	
 
 	return (convexSetPoints);
 }
@@ -103,6 +92,54 @@ int			SearchConvexSet::findSide(point::Point a, point::Point b, point::Point poi
 		return (0);	
 }			
 
+
+// void		SearchConvexSet::findHull(std::vector<point::Point>& points, point::Point& start, point::Point& end, int side)
+// {
+// 	uint_t	indexSidePoints;
+
+
+
+// 	indexSidePoints = searchIndexSidePoints(points, start, end, side);
+// 	convexSetPoints.push_back(points[indexSidePoints])
+	
+// 	if (index == -1)
+// 	{
+// 		convexSetPoints.push_back(start);
+// 		convexSetPoints.push_back(end);
+// 		return ;
+// 	}
+
+// 	// findHull(points, points[index], start, -findSide(points[index], start, end));
+// 	// findHull(points, points[index], end, -findSide(points[index], end, start));
+// }
+
+// uint_t		SearchConvexSet::searchIndexSidePoints(std::vector<point::Point>& points, point::Point& start, point::Point& end, int side)
+// {
+// 	uint_t				index;
+// 	double				pastDistance;
+// 	double				maxDistance;
+// 	std::vector<double>	coeffHyperplane;
+// 	int 				currentSide;
+
+
+// 	index = -1;
+// 	maxDistance = 0;
+// 	coeffHyperplane = calculateHyperplane(start, end);
+// 	for (uint_t i = 0; i < points.size(); i++)
+// 	{
+// 		pastDistance = equationHyperplane(points[i], coeffHyperplane);
+// 		currentSide = findSide(start, end, points[i]);
+// 		if ((currentSide == side) && (pastDistance > maxDistance))
+// 		{
+// 			index = i;
+// 			maxDistance = pastDistance;
+// 		}
+// 	}
+
+// 	return (index);
+// }
+
+
 void		SearchConvexSet::findHull(std::vector<point::Point>& points, point::Point& start, point::Point& end, int side)
 {
 	int		index;
@@ -129,87 +166,13 @@ void		SearchConvexSet::findHull(std::vector<point::Point>& points, point::Point&
 	{
 		convexSetPoints.push_back(start);
 		convexSetPoints.push_back(end);
+
 		return ;
 	}
 
 	findHull(points, points[index], start, -findSide(points[index], start, end));
 	findHull(points, points[index], end, -findSide(points[index], end, start));
 }
-
-
-// /**
-//  * @brief расчёт нормали, проходящей через точку, зная направляющую перпендикулярной прямой
-//  * 
-//  * @param direction направляющий вектор перпендикулярной прямой
-//  * @param pointOutside точка, не принадлежащая перпендикулярной прямой
-//  * @return нормаль, перпендикулярная direction, проходящая через точку pointOutside
-//  * 		   в виде (Ax+By+C = 0)
-//  */
-// std::vector<double>	SearchConvexSet::calculateLineNormal(const point::Point& direction, const point::Point& pointOutside)
-// {
-// 	point::Point	resNormal(3);
-
-// 	resNormal[0] = direction.x;
-// 	resNormal[1] = direction.y;
-// 	resNormal[2] = -direction.x * pointOutside.x - direction.y * pointOutside.y; 
-
-// 	return (resNormal);
-// }
-
-
-// /**
-//  * @brief расчёт нормали проходящей через точку pointOutside, для прямой a b
-//  * @param a минимальные координаты точки по выбранной оси(X/Y)
-//  * @param b максимальные координаты точки по выбранной оси(X/Y)
-//  * @param pointOutside точка, через которую проходит нормаль
-//  * @return уравнение нормали в канонической форме (Ax+By+C = 0)
-//  */
-// std::vector<double>	SearchConvexSet::calculateLineNormal(const point::Point& a, const point::Point& b, const Point& pointOutside)
-// {
-// 	Point	resNormal(3);
-
-// 	resNormal[0] = direction.x;
-// 	resNormal[1] = direction.y;
-// 	resNormal[2] = -direction.x * pointOutside.x - direction.y * pointOutside.y; 
-
-// 	return (resNormal);
-// }
-
-// // ????переименовать переменные a и b, как минимальные и максимальные значения по оси????
-// /**
-//  * @brief Рассчёт уравнения гиперплоскости проходящей через две точки и нормалью к барицентру в виде 
-//  * 
-//  * @param a координаты первой точки
-//  * @param b координаты второй точки
-//  * @param pointOutside точка, не принадлежащая прямой, через которую проходит
-//  * 					   нормаль
-//  * @return уравнение вида w_1*x_1 + w_2*x_2 + b = 0
-//  * , где (w_1, w_2) - нормаль к прямой. Результат вектор коэфф. уравнения(w_1, w_2, b)
-//  */
-// std::vector<double>	SearchConvexSet::calculateHyperplane(Point a, Point b, Point pointOutside)
-// {
-// 	Point				direction;
-// 	// std::vector<double> normal;
-// 	std::vector<double>	resCoeffHyperplane(3);
-
-// 	// normal = calculateLineNormal(a, b, pointOutside);
-
-// 	// direction = {b.x - a.x, b.y - a.y}
-// 	direction.x = b.x - a.x;
-// 	direction.y = b.y - a.y;
-
-
-// 	resCoeffHyperplane[0] = direction.y;
-// 	resCoeffHyperplane[1] = -direction.x;
-
-// 	// 1(x - a.x) + k(y - a.y) = 0
-// 	// b = -a.x + k*(-a.y)
-
-// 	resCoeffHyperplane[2] = -direction.y * a.x + direction.x * a.y; 
-
-// 	return (resCoeffHyperplane);
-// }
-
 
 // ????переименовать переменные a и b, как минимальные и максимальные значения по оси????
 /**
@@ -224,23 +187,14 @@ void		SearchConvexSet::findHull(std::vector<point::Point>& points, point::Point&
  */
 std::vector<double>	SearchConvexSet::calculateHyperplane(point::Point a, point::Point b)
 {
+	std::vector<double>			resCoeffHyperplane(3);
 	point::Point				direction;
-	// std::vector<double> normal;
-	std::vector<double>	resCoeffHyperplane(3);
 
-	// normal = calculateLineNormal(a, b, pointOutside);
-
-	// direction = {b.x - a.x, b.y - a.y}
 	direction.x = b.x - a.x;
 	direction.y = b.y - a.y;
 
-
 	resCoeffHyperplane[0] = -direction.y;
 	resCoeffHyperplane[1] = direction.x;
-
-	// 1(x - a.x) + k(y - a.y) = 0
-	// b = -a.x + k*(-a.y)
-
 	resCoeffHyperplane[2] = direction.y * a.x - direction.x * a.y; 
 
 	return (resCoeffHyperplane);
