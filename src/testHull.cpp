@@ -57,6 +57,8 @@ void quickHull(iPair a[], int n, iPair p1, iPair p2, int side)
 	{
 		hull.insert(p1);
 		hull.insert(p2);
+		cout << "p1 = " << p1.first << ", " << p1.second << endl;
+		cout << "p2 = " << p2.first << ", " << p2.second << endl;
 		return;
 	}
 
