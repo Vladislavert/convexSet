@@ -1,72 +1,49 @@
 #include "SearchConvexSet.hpp"
 
-// std::vector<point::Point>	SearchConvexSet::searchPoints(std::vector<point::Point>& points)
-// {
-// 	std::vector<point::Point>	minMaxPointsX;
-// 	// std::vector<uint_t>			indexMinMaxPointsX;
-// 	// std::vector<double>			coeffHyperplane;
-// 	// std::vector<double>			pointsOverHyperplane;
-// 	// double						pastDistance;
-// 	// double						currentDistance;
-
-// 	setOfPoints = points;
-
-// 	// pointsOutside  = points;
-
-// 	// // добавить точку в вектор convexSetPoints
-// 	minMaxPointsX = searchMinMaxPoints(setOfPoints, 'x');
-
-
-// 	findHull(points, minMaxPointsX[0], minMaxPointsX[1], 1);
-// 	printConvexSetPoints();
-// 	findHull(points, minMaxPointsX[0], minMaxPointsX[1], -1);
-// 	std::cout << "-------------" << std::endl;
-// 	printConvexSetPoints();
-
-
-// 	return (convexSetPoints);
-// }
-
-
-std::vector<point::Point>	SearchConvexSet::searchPoints(std::vector<point::Point>& points)
+/**
+ * @brief Поиск точек, принадлежащих выпуклому множеству
+ * 
+ * @param points вектор точек
+ * @return точки, принадлежащие множеству
+ */
+std::set<point::Point>	SearchConvexSet::searchPoints(std::vector<point::Point>& points)
 {
 	std::vector<point::Point>	minMaxPointsX;
-	// std::vector<uint_t>			indexMinMaxPointsX;
-	// std::vector<double>			coeffHyperplane;
-	// std::vector<double>			pointsOverHyperplane;
-	// double						pastDistance;
-	// double						currentDistance;
 
-	setOfPoints = points;
+	minMaxPointsX = searchMinMaxPoints(points, 'x');
 
-	// pointsOutside  = points;
-
-	// // добавить точку в вектор convexSetPoints
-	minMaxPointsX = searchMinMaxPoints(setOfPoints, 'x');
-
-	// indexSidePoints.push_back(minMaxPointsX[0]);
-	// indexSidePoints.push_back(minMaxPointsX[1]);
-
-	
 	findHull(points, minMaxPointsX[0], minMaxPointsX[1], 1);
-	printConvexSetPoints();
 	findHull(points, minMaxPointsX[0], minMaxPointsX[1], -1);
-	std::cout << "-------------" << std::endl;
-	printConvexSetPoints();
-
 
 	return (convexSetPoints);
 }
 
-void	SearchConvexSet::printConvexSetPoints()
+/**
+ * @brief Вывод вектора на консоль
+ * 
+ */
+void	SearchConvexSet::printSetOfPoints()
 {
-	for (uint_t i = 0; i < convexSetPoints.size(); i++)
+	for (uint_t i = 0; i < setOfPoints.size(); i++)
 	{
-		std::cout << "x = " << convexSetPoints[i].x
-				  << ", y = " << convexSetPoints[i].y
+		std::cout << "x = " << setOfPoints[i].x
+				  << ", y = " << setOfPoints[i].y
 				  << std::endl;
 	}
-	
+}
+
+/**
+ * @brief Вывод set на консоль
+ * 
+ */
+void	SearchConvexSet::printConvexSetPoints()
+{
+	while (!convexSetPoints.empty())
+	{
+		std::cout << "(" <<( *convexSetPoints.begin()).x << ", "
+			<< (*convexSetPoints.begin()).y << ") ";
+		convexSetPoints.erase(convexSetPoints.begin());
+	}
 }
 
 /**
@@ -79,8 +56,8 @@ void	SearchConvexSet::printConvexSetPoints()
  */
 int			SearchConvexSet::findSide(point::Point a, point::Point b, point::Point pointOutside)
 {
-	std::vector<double>			coeffHyperplane;
-	double						distance;
+	std::vector<double>	coeffHyperplane;
+	double				distance;
 
 	coeffHyperplane = calculateHyperplane(a, b);
 	distance = equationHyperplane(pointOutside, coeffHyperplane);
@@ -92,61 +69,13 @@ int			SearchConvexSet::findSide(point::Point a, point::Point b, point::Point poi
 		return (0);	
 }			
 
-
-// void		SearchConvexSet::findHull(std::vector<point::Point>& points, point::Point& start, point::Point& end, int side)
-// {
-// 	uint_t	indexSidePoints;
-
-
-
-// 	indexSidePoints = searchIndexSidePoints(points, start, end, side);
-// 	convexSetPoints.push_back(points[indexSidePoints])
-	
-// 	if (index == -1)
-// 	{
-// 		convexSetPoints.push_back(start);
-// 		convexSetPoints.push_back(end);
-// 		return ;
-// 	}
-
-// 	// findHull(points, points[index], start, -findSide(points[index], start, end));
-// 	// findHull(points, points[index], end, -findSide(points[index], end, start));
-// }
-
-// uint_t		SearchConvexSet::searchIndexSidePoints(std::vector<point::Point>& points, point::Point& start, point::Point& end, int side)
-// {
-// 	uint_t				index;
-// 	double				pastDistance;
-// 	double				maxDistance;
-// 	std::vector<double>	coeffHyperplane;
-// 	int 				currentSide;
-
-
-// 	index = -1;
-// 	maxDistance = 0;
-// 	coeffHyperplane = calculateHyperplane(start, end);
-// 	for (uint_t i = 0; i < points.size(); i++)
-// 	{
-// 		pastDistance = equationHyperplane(points[i], coeffHyperplane);
-// 		currentSide = findSide(start, end, points[i]);
-// 		if ((currentSide == side) && (pastDistance > maxDistance))
-// 		{
-// 			index = i;
-// 			maxDistance = pastDistance;
-// 		}
-// 	}
-
-// 	return (index);
-// }
-
-
 void		SearchConvexSet::findHull(std::vector<point::Point>& points, point::Point& start, point::Point& end, int side)
 {
-	int		index;
-	double	pastDistance;
-	double	maxDistance;
-	std::vector<double>			coeffHyperplane;
-	int 		currentSide;
+	int 				currentSide;
+	int					index;
+	double				pastDistance;
+	double				maxDistance;
+	std::vector<double>	coeffHyperplane;
 
 	index = -1;
 	maxDistance = 0;
@@ -161,15 +90,12 @@ void		SearchConvexSet::findHull(std::vector<point::Point>& points, point::Point&
 			maxDistance = pastDistance;
 		}
 	}
-	
 	if (index == -1)
 	{
-		convexSetPoints.push_back(start);
-		convexSetPoints.push_back(end);
-
+		convexSetPoints.insert(start);
+		convexSetPoints.insert(end);
 		return ;
 	}
-
 	findHull(points, points[index], start, -findSide(points[index], start, end));
 	findHull(points, points[index], end, -findSide(points[index], end, start));
 }
@@ -239,49 +165,4 @@ std::vector<point::Point>	SearchConvexSet::searchMinMaxPoints(std::vector<point:
 		throw ("axesMinMax is not a valid value");
 
 	return (resMinMaxPoints);
-}
-
-
-// rename
-void				SearchConvexSet::setIndexExtremePoints(std::vector<point::Point>& sortPoints, const std::vector<point::Point>& points,
-										  std::vector<uint_t>& indexExtremePoints, bool compare(const point::Point&, const point::Point&))
-{
-	std::sort(sortPoints.begin(), sortPoints.end(), compare);
-	indexExtremePoints.push_back(std::find(points.cbegin(), points.cend(), sortPoints[0])		- points.cbegin());
-	indexExtremePoints.push_back(std::find(points.cbegin(), points.cend(), sortPoints.back())	- points.cbegin());
-}
-
-/**
- * @brief Поиск минимального и максимального значения по оси X/Y в множестве
- * 
- * @param points множество точек
- * @param axesMinMax ось, по которой проводится сравнение ('x' || 'y')
- * @return значение крайних точек по выбранной оси 
- */
-std::vector<uint_t>	SearchConvexSet::searchIndexMinMaxPoints(const std::vector<point::Point>& points, char axesMinMax)
-{
-	std::vector<uint_t>	resIndexExtremePoints;
-	std::vector<point::Point>	sortPoints(points);
-
-	if (axesMinMax == 'x' || axesMinMax == 'X')
-		setIndexExtremePoints(sortPoints, points, resIndexExtremePoints, point::compareX);
-	else if (axesMinMax == 'y' || axesMinMax == 'Y')
-		setIndexExtremePoints(sortPoints, points, resIndexExtremePoints, point::compareY);
-	else
-		throw ("axesMinMax is not a valid value");
-
-	return (resIndexExtremePoints);
-}
-
-/**
- * @brief функция для очистки внешних функций от внутренних
- * 
- * @param interiorPoints внутренние функции или принадлежащие лежащие на множестве
- */
-void				SearchConvexSet::clearPointsOutside(const std::vector<point::Point>& interiorPoints)
-{
-	for (uint_t i = 0; i < interiorPoints.size(); i++)
-	{
-		pointsOutside.erase(std::find(pointsOutside.cbegin(), pointsOutside.cend(), interiorPoints[i]));
-	}	
 }

@@ -20,6 +20,14 @@ namespace point
 			{
 				return (x == point.x && y == point.y);
 			}
+			bool	operator<(const Point& point) const
+			{
+				return (x < point.x || (!(point.x < x) && y < point.y));
+			}
+			bool	operator>(const Point& point) const
+			{
+				return (point < *this);
+			}
 	};
 	bool	compareX(const point::Point& point1, const point::Point& point2);
 	bool	compareY(const point::Point& point1, const point::Point& point2);
